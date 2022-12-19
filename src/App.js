@@ -1,9 +1,10 @@
 import React from 'react';
+import PostForm from './Components/PostForm/PostForm';
 // import Counter from './Components/Counter/Counter';
 
 import PostList from './Components/PostList/PostList';
-import Mybutton from './Components/UI/Button/Mybutton';
-import MyInput from './Components/UI/Input/MyInput';
+// import Mybutton from './Components/UI/Button/Mybutton';
+// import MyInput from './Components/UI/Input/MyInput';
 
 import './styles/App.css';
 
@@ -14,35 +15,27 @@ function App() {
 
    // Состояние, массив постов.
    const [posts, setPosts] = React.useState([
-      {id: 1, title: 'JavaScript', body: 'Язык программирования'},
-      {id: 2, title: 'React', body: 'Библиотека'},
-      {id: 3, title: 'NodeJS', body: 'Бэк'},
-   
+      { id: 1, title: 'JavaScript', body: 'Язык программирования' },
+      { id: 2, title: 'React', body: 'Библиотека' },
+      { id: 3, title: 'NodeJS', body: 'Бэк' },
+
    ]);
 
-   // Состоние инпутов для добавления постов
-   const [title, setTitle] = React.useState('');
-   const [body, setBody] = React.useState('');
+   // Функция добовления постов, ее мы прокидываем пропсами в PostForm
+   const createPost = (Newpost) => {
+      setPosts([...posts, Newpost])
+   }
 
-      const addNewPost = (event) => {
-         event.preventDefault()
-         const newPost = {
-            id: Date.now(),
-            title: title,
-            body: body
-         }
-         setPosts([...posts, newPost])
-         setTitle('')
-         setBody('')
 
-      }
+   return (
 
-   
-    return (
+      <div className='App'>
 
-        <div className='App'>
+         <PostForm
+            create={createPost}
+         />
 
-         <form>             
+         {/* <form>             
             <MyInput 
             type='text'
             placeholder='Название' 
@@ -55,18 +48,18 @@ function App() {
             onChange={(event)=> setBody(event.target.value)}       
             /> 
             <Mybutton onClick={addNewPost}>Создать пост</Mybutton>
-         </form>
+         </form> */}
 
          <PostList
-         posts={posts}
+            posts={posts}
          />
-         
 
-        </div>       
 
-     
-                    
-         
+      </div>
+
+
+
+
    );
 }
 export default App;
