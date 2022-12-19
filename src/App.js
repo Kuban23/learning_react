@@ -20,14 +20,20 @@ function App() {
    
    ]);
 
+   // Состоние инпутов для добавления постов
+   const [title, setTitle] = React.useState('');
+   const [body, setBody] = React.useState('');
+
       const addNewPost = (event) => {
          event.preventDefault()
          const newPost = {
             id: Date.now(),
-            title: 'title',
-            body: 'body'
+            title: title,
+            body: body
          }
          setPosts([...posts, newPost])
+         setTitle('')
+         setBody('')
 
       }
 
@@ -39,10 +45,14 @@ function App() {
          <form>             
             <MyInput 
             type='text'
-            placeholder='Название'              
+            placeholder='Название' 
+            value={title} 
+            onChange={(event)=> setTitle(event.target.value)}            
             />
             <MyInput type='text' 
-            placeholder='Описание поста'           
+            placeholder='Описание поста' 
+            value={body}    
+            onChange={(event)=> setBody(event.target.value)}       
             /> 
             <Mybutton onClick={addNewPost}>Создать пост</Mybutton>
          </form>
