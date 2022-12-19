@@ -1,6 +1,9 @@
 import React from 'react';
 // import Counter from './Components/Counter/Counter';
-import PostItem from './Components/PostItem/PostItem';
+
+import PostList from './Components/PostList/PostList';
+import Mybutton from './Components/UI/Button/Mybutton';
+import MyInput from './Components/UI/Input/MyInput';
 
 import './styles/App.css';
 
@@ -16,12 +19,37 @@ function App() {
       {id: 3, title: 'NodeJS', body: 'Бэк'},
    
    ]);
+
+      const addNewPost = (event) => {
+         event.preventDefault()
+         const newPost = {
+            id: Date.now(),
+            title: 'title',
+            body: 'body'
+         }
+         setPosts([...posts, newPost])
+
+      }
+
    
     return (
 
         <div className='App'>
 
-         {posts.map((post)=> <PostItem key={post.id} post={post}/>)}
+         <form>             
+            <MyInput 
+            type='text'
+            placeholder='Название'              
+            />
+            <MyInput type='text' 
+            placeholder='Описание поста'           
+            /> 
+            <Mybutton onClick={addNewPost}>Создать пост</Mybutton>
+         </form>
+
+         <PostList
+         posts={posts}
+         />
          
 
         </div>       
