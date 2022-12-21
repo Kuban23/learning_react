@@ -1,10 +1,11 @@
 import React from 'react';
+import PostFilter from './Components/PostFilter/PostFilter';
 import PostForm from './Components/PostForm/PostForm';
 // import Counter from './Components/Counter/Counter';
 
 import PostList from './Components/PostList/PostList';
-import MyInput from './Components/UI/Input/MyInput';
-import MySelect from './Components/UI/MySelect/MySelect';
+// import MyInput from './Components/UI/Input/MyInput';
+// import MySelect from './Components/UI/MySelect/MySelect';
 // import Mybutton from './Components/UI/Button/Mybutton';
 // import MyInput from './Components/UI/Input/MyInput';
 
@@ -23,24 +24,21 @@ function App() {
 
    ]);
 
-   // Состояние селекта
-   const [selectedSort, setSelectedSort] = React.useState('');
-
-   // Состояние инпута поиска
-   const [search, setSearch] = React.useState('');
+   // Общее состояние поиска и сортировки постов
+   const [filter, setFilter] = React.useState({ sort: '', query: '' });
 
    // Хук для отслеживания изменения постов и состояния сортировки, возвращаю массив отсортированных постов
    const sortedPosts = React.useMemo(() => {
-      if (selectedSort) {
-         return [...posts].sort((a, b) => a[selectedSort].localeCompare(b[selectedSort]))
+      if (filter.sort) {
+         return [...posts].sort((a, b) => a[filter.sort].localeCompare(b[filter.sort]))
       }
       return posts
-   }, [posts, selectedSort]);
+   }, [posts, filter.sort]);
 
    // Хук для отслеживания изменения инпута поиска и отсортированного массива постов
-   const sortedAndSearchedPosts =React.useMemo(()=>{
-    return sortedPosts.filter((post)=>post.title.toLowerCase().includes(search))
-   },[sortedPosts, search]);
+   const sortedAndSearchedPosts = React.useMemo(() => {
+      return sortedPosts.filter((post) => post.title.toLowerCase().includes(filter.query))
+   }, [sortedPosts, filter.query]);
 
    // Функция добовления постов, ее прокидываю пропсами в PostForm
    const createPost = (Newpost) => {
@@ -52,12 +50,6 @@ function App() {
       setPosts(posts.filter((p) => p.id !== post.id))
    }
 
-   // Функция сортировки постов
-   const sortedPost = (sortPost) => {
-      // setPosts([...posts].sort((a, b) => a[sortPost].localeCompare(b[sortPost])));
-      setSelectedSort(sortPost)
-   }
-
    return (
 
       <div className='App'>
@@ -66,21 +58,9 @@ function App() {
             create={createPost}
          />
 
-         <MyInput
-            placeholder={'Поиск...'}
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-         />
-
-         <MySelect
-            defaultValue={'Сортировка по...'}
-            options={[
-               { value: 'title', name: 'По наименованию' },
-               { value: 'body', name: 'По описанию' }
-            ]}
-            value={selectedSort}
-            onChange={sortedPost}
-
+         <PostFilter
+            filter={filter}
+            setFilter={setFilter}
          />
 
          {
