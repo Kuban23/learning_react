@@ -2,6 +2,8 @@ import React from 'react';
 import PostFilter from './Components/PostFilter/PostFilter';
 import PostForm from './Components/PostForm/PostForm';
 import PostList from './Components/PostList/PostList';
+import MyButton from './Components/UI/Button/MyButton';
+import MyPopup from './Components/UI/MyPopup/MyPopup';
 import { usePosts } from './hook/usePosts';
 import './styles/App.css';
 
@@ -21,17 +23,16 @@ function App() {
    // Общее состояние поиска и сортировки постов
    const [filter, setFilter] = React.useState({ sort: '', query: '' });
 
-   // Вызываю Хук usePosts
+   // Вызываю кастомный Хук usePosts
    const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
 
-
-
-   // Хук для отслеживания изменения инпута поиска и отсортированного массива постов
-
+   // Состояние Popup
+   const [activePopup, setActivePopup] = React.useState(false)
 
    // Функция добовления постов, ее прокидываю пропсами в PostForm
    const createPost = (Newpost) => {
       setPosts([...posts, Newpost])
+      setActivePopup(false)
    }
 
    // Функция для удаления постов, ее прокидываю пропсами в PostItem через PostList
@@ -43,9 +44,18 @@ function App() {
 
       <div className='App'>
 
-         <PostForm
-            create={createPost}
-         />
+         <MyButton style={{margin:'15px'}}
+         onClick={()=>setActivePopup(true)}
+         >Создать пост</MyButton>
+
+         <MyPopup
+            activePopup={activePopup}
+            setActivePopup={setActivePopup}
+         >
+            <PostForm create={createPost}/>
+         </MyPopup>
+
+
 
          <PostFilter
             filter={filter}
