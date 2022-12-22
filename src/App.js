@@ -1,14 +1,8 @@
 import React from 'react';
 import PostFilter from './Components/PostFilter/PostFilter';
 import PostForm from './Components/PostForm/PostForm';
-// import Counter from './Components/Counter/Counter';
-
 import PostList from './Components/PostList/PostList';
-// import MyInput from './Components/UI/Input/MyInput';
-// import MySelect from './Components/UI/MySelect/MySelect';
-// import Mybutton from './Components/UI/Button/Mybutton';
-// import MyInput from './Components/UI/Input/MyInput';
-
+import { usePosts } from './hook/usePosts';
 import './styles/App.css';
 
 
@@ -27,18 +21,13 @@ function App() {
    // Общее состояние поиска и сортировки постов
    const [filter, setFilter] = React.useState({ sort: '', query: '' });
 
-   // Хук для отслеживания изменения постов и состояния сортировки, возвращаю массив отсортированных постов
-   const sortedPosts = React.useMemo(() => {
-      if (filter.sort) {
-         return [...posts].sort((a, b) => a[filter.sort].localeCompare(b[filter.sort]))
-      }
-      return posts
-   }, [posts, filter.sort]);
+   // Вызываю Хук usePosts
+   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
+
+
 
    // Хук для отслеживания изменения инпута поиска и отсортированного массива постов
-   const sortedAndSearchedPosts = React.useMemo(() => {
-      return sortedPosts.filter((post) => post.title.toLowerCase().includes(filter.query))
-   }, [sortedPosts, filter.query]);
+
 
    // Функция добовления постов, ее прокидываю пропсами в PostForm
    const createPost = (Newpost) => {
