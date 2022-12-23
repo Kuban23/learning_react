@@ -21,6 +21,7 @@ React.useEffect(() => {
       <div className={activePopup ? 'myPopup active' : 'myPopup'} onClick={() => setActivePopup(false)}>
 
          <div className={activePopup ? 'myPopupContent active' : 'myPopupContent'} onClick={(event)=> event.stopPropagation()}>
+         <button className='myPopup__close' onClick={()=>setActivePopup(false)}></button>
             {children}
          </div>
       </div>
