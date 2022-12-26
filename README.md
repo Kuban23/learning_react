@@ -10,3 +10,4 @@
 * Добавил в Popup кнопку close.
 * Реализовал анимацию по добавлению и удалению постов с помощью react transition group.
 * Реализовал загрузку постов спомощью запроса на API 'https://jsonplaceholder.typicode.com/posts'.
+* Добавил Preloader перед загрузкой постов.

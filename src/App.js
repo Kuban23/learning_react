@@ -6,10 +6,9 @@ import PostForm from './Components/PostForm/PostForm';
 import PostList from './Components/PostList/PostList';
 import MyButton from './Components/UI/Button/MyButton';
 import MyPopup from './Components/UI/MyPopup/MyPopup';
+import PreloaderPosts from './Components/UI/PreloaderPosts/PreloaderPosts';
 import { usePosts } from './hook/usePosts';
 import './styles/App.css';
-
-
 
 
 function App() {
@@ -31,10 +30,19 @@ function App() {
       feachPosts()
    }, []);
 
+   // Состояние постов при загрузке
+   const [postsLoading, setPostsLoading] = React.useState(false);
+
    // Функция для запроса массива постов
    async function feachPosts() {
-      const posts = await PostService.getAll()
-      setPosts(posts)
+      setPostsLoading(true)
+      setTimeout(async () => {
+         const posts = await PostService.getAll()
+         setPosts(posts)
+         setPostsLoading(false)
+      }
+
+         , 1000)
    }
 
    // Функция добовления постов, ее прокидываю пропсами в PostForm
@@ -70,11 +78,13 @@ function App() {
             setFilter={setFilter}
          />
 
-         {
-            sortedAndSearchedPosts.length !== 0
-               ? <PostList posts={sortedAndSearchedPosts} remove={removePost} />
-               : <h1 style={{ textAlign: 'center' }}>Посты не найдены</h1>
-         }
+         {postsLoading
+            ?
+            <div style={{display:'flex', justifyContent:'center', marginTop: 100}}><PreloaderPosts /></div>
+            : <PostList posts={sortedAndSearchedPosts} remove={removePost} title={'Список постов'} />}
+
+
+
 
       </div>
 
