@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React from 'react';
+import PostService from './API/PostService';
 import PostFilter from './Components/PostFilter/PostFilter';
 import PostForm from './Components/PostForm/PostForm';
 import PostList from './Components/PostList/PostList';
@@ -25,10 +26,15 @@ function App() {
    // Состояние Popup
    const [activePopup, setActivePopup] = React.useState(false)
 
+   // Хук для отслеживания изменения массива прстов
+   React.useEffect(() => {
+      feachPosts()
+   }, []);
+
    // Функция для запроса массива постов
    async function feachPosts() {
-      const response = await axios.get('https://jsonplaceholder.typicode.com/posts')
-      setPosts(response.data)
+      const posts = await PostService.getAll()
+      setPosts(posts)
    }
 
    // Функция добовления постов, ее прокидываю пропсами в PostForm
@@ -45,8 +51,6 @@ function App() {
    return (
 
       <div className='App'>
-
-         <button onClick={feachPosts}>Запросить Посты</button>
 
          <MyButton style={{ margin: '15px' }}
             onClick={() => setActivePopup(true)}
