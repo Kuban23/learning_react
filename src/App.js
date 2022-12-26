@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 import PostFilter from './Components/PostFilter/PostFilter';
 import PostForm from './Components/PostForm/PostForm';
@@ -12,13 +13,8 @@ import './styles/App.css';
 
 function App() {
 
-   // Состояние, массив постов.
-   const [posts, setPosts] = React.useState([
-      { id: 1, title: 'JavaScript', body: 'Язык программирования' },
-      { id: 2, title: 'React', body: 'Библиотека' },
-      { id: 3, title: 'NodeJS', body: 'Бэк' },
-
-   ]);
+   // Состояние, массив получаю от сервера.
+   const [posts, setPosts] = React.useState([]);
 
    // Общее состояние поиска и сортировки постов
    const [filter, setFilter] = React.useState({ sort: '', query: '' });
@@ -28,6 +24,12 @@ function App() {
 
    // Состояние Popup
    const [activePopup, setActivePopup] = React.useState(false)
+
+   // Функция для запроса массива постов
+   async function feachPosts() {
+      const response = await axios.get('https://jsonplaceholder.typicode.com/posts')
+      setPosts(response.data)
+   }
 
    // Функция добовления постов, ее прокидываю пропсами в PostForm
    const createPost = (Newpost) => {
@@ -44,15 +46,17 @@ function App() {
 
       <div className='App'>
 
-         <MyButton style={{margin:'15px'}}
-         onClick={()=>setActivePopup(true)}
+         <button onClick={feachPosts}>Запросить Посты</button>
+
+         <MyButton style={{ margin: '15px' }}
+            onClick={() => setActivePopup(true)}
          >Создать пост</MyButton>
 
          <MyPopup
             activePopup={activePopup}
             setActivePopup={setActivePopup}
          >
-            <PostForm create={createPost}/>
+            <PostForm create={createPost} />
          </MyPopup>
 
 

@@ -1,0 +1,11 @@
+.select {
+   width: 250px;
+   border: 1px solid teal;
+   color: teal;
+   outline: none;
+}
+
+.option {
+   color: black;
+
+}
