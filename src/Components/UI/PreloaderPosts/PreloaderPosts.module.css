@@ -1,9 +1,22 @@
+.wrapper {
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   right: 0;
+   left: 0;
+   background: rgba(0, 0, 0, 0.2);
+
+}
+
 .loader {
    width: 100px;
    height: 100px;
    border-radius: 50px;
    border: 3px dashed teal;
    animation: rotate 3s infinite linear;
+   position: relative;
+	top: 300px;
+	left: 700px;
 }
 
 @keyframes rotate {

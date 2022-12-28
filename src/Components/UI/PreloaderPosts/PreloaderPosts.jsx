@@ -3,7 +3,10 @@ import classes from './PreloaderPosts.module.css';
 
 const PreloaderPosts = () => {
   return (
-    <div className={classes.loader}></div>
+   <div className={classes.wrapper}>
+      
+   <div className={classes.loader}></div>
+       </div>
   )
 }
 
