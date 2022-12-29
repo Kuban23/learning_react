@@ -12,3 +12,4 @@
 * Реализовал загрузку постов с 'https://jsonplaceholder.typicode.com/posts', применил HTTP клиент axios. Работал с промисами с помощью async/await.
 * Добавил Preloader перед загрузкой постов.
 * Переделал загрузку постов, применил fetch('https://jsonplaceholder.typicode.com/posts'), обработал промисы методом .then().
+* Создал кастомный Хук useFetching, который обрабатывает прелоадер и ошибки.

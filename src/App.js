@@ -7,6 +7,7 @@ import PostList from './Components/PostList/PostList';
 import MyButton from './Components/UI/Button/MyButton';
 import MyPopup from './Components/UI/MyPopup/MyPopup';
 import PreloaderPosts from './Components/UI/PreloaderPosts/PreloaderPosts';
+import { useFetching } from './hook/useFetching';
 import { usePosts } from './hook/usePosts';
 import './styles/App.css';
 
@@ -27,13 +28,20 @@ function App() {
 
    // Хук для отслеживания изменения массива прстов
    React.useEffect(() => {
-      feachPosts()
+      fetchPosts()
    }, []);
 
    // Состояние постов при загрузке
-   const [postsLoading, setPostsLoading] = React.useState(false);
+   // const [postsLoading, setPostsLoading] = React.useState(false);
+   // Воспользуюсь своим Хуком для запуска прелоадера и отслеживания ошибок
+   const [postsLoading, fetchPosts, errorPosts] = useFetching( async() => {
+     await Promise.all([PostService()])
+         .then(([posts]) => {
+            setPosts(posts)
+         })                       
+   });
 
-   // Функция для запроса массива постов
+    // Функция для запроса массива постов
    // async function feachPosts() {
    //    setPostsLoading(true)
    //    setTimeout(async () => {
@@ -42,20 +50,16 @@ function App() {
    //       setPostsLoading(false)
    //    }, 1000)
    // }
-   function feachPosts() {
-      setPostsLoading(true)
-      setTimeout(()=>{
-         Promise.all([PostService()])
-         .then(([posts]) => {
-            setPosts(posts)
-         })
-         setPostsLoading(false)
-      },1000)
-
-      
-      
-         
-   }
+   // function fetchPosts() {
+   //    setPostsLoading(true)
+   //    setTimeout(() => {
+   //       Promise.all([PostService()])
+   //          .then(([posts]) => {
+   //             setPosts(posts)
+   //          })
+   //       setPostsLoading(false)
+   //    }, 1000)
+   // }
 
    // Функция добовления постов, ее прокидываю пропсами в PostForm
    const createPost = (Newpost) => {
@@ -83,12 +87,14 @@ function App() {
             <PostForm create={createPost} />
          </MyPopup>
 
-
-
          <PostFilter
             filter={filter}
             setFilter={setFilter}
          />
+
+         {errorPosts && 
+         <h1>Произошла ошибка ${errorPosts}</h1>
+         }
 
          {postsLoading
             ?
