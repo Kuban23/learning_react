@@ -34,15 +34,27 @@ function App() {
    const [postsLoading, setPostsLoading] = React.useState(false);
 
    // Функция для запроса массива постов
-   async function feachPosts() {
+   // async function feachPosts() {
+   //    setPostsLoading(true)
+   //    setTimeout(async () => {
+   //       const posts = await PostService.getAll()
+   //       setPosts(posts)
+   //       setPostsLoading(false)
+   //    }, 1000)
+   // }
+   function feachPosts() {
       setPostsLoading(true)
-      setTimeout(async () => {
-         const posts = await PostService.getAll()
-         setPosts(posts)
+      setTimeout(()=>{
+         Promise.all([PostService()])
+         .then(([posts]) => {
+            setPosts(posts)
+         })
          setPostsLoading(false)
-      }
+      },1000)
 
-         , 1000)
+      
+      
+         
    }
 
    // Функция добовления постов, ее прокидываю пропсами в PostForm
@@ -80,7 +92,7 @@ function App() {
 
          {postsLoading
             ?
-            <div style={{display:'flex', justifyContent:'center', marginTop: 100}}><PreloaderPosts /></div>
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: 100 }}><PreloaderPosts /></div>
             : <PostList posts={sortedAndSearchedPosts} remove={removePost} title={'Список постов'} />}
 
 

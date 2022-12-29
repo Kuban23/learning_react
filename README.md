@@ -9,5 +9,6 @@
 * Создал pupap и перенес в него форму для добавления постов, добавил логику закрытия popup по клику и с помощью кнопки ESC.
 * Добавил в Popup кнопку close.
 * Реализовал анимацию по добавлению и удалению постов с помощью react transition group.
-* Реализовал загрузку постов с 'https://jsonplaceholder.typicode.com/posts', применил HTTP клиент axios. Работал с промисами с помощью async await.
+* Реализовал загрузку постов с 'https://jsonplaceholder.typicode.com/posts', применил HTTP клиент axios. Работал с промисами с помощью async/await.
 * Добавил Preloader перед загрузкой постов.
+* Переделал загрузку постов, применил fetch('https://jsonplaceholder.typicode.com/posts'), обработал промисы методом .then().
