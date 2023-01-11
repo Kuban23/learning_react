@@ -10,6 +10,7 @@ import PreloaderPosts from './Components/UI/PreloaderPosts/PreloaderPosts';
 import { useFetching } from './hook/useFetching';
 import { usePosts } from './hook/usePosts';
 import './styles/App.css';
+import { getPages } from './utils/pages';
 
 
 function App() {
@@ -20,14 +21,17 @@ function App() {
    // Общее состояние поиска и сортировки постов
    const [filter, setFilter] = React.useState({ sort: '', query: '' });
 
-     // Состояние Popup
-   const [activePopup, setActivePopup] = React.useState(false)
+   // Состояние Popup
+   const [activePopup, setActivePopup] = React.useState(false);
 
    // Состояние в которое будем помещать общее кол-во страниц с постами 
-   const [totalPages, setTotalPages] = React.useState(0)
+   const [totalPages, setTotalPages] = React.useState(0);
 
-    // Вызываю кастомный Хук usePosts
-    const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
+   // Состояние лимита страниц
+   const [limit, setLimit] = React.useState(10);
+
+   // Вызываю кастомный Хук usePosts
+   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
 
    // Хук для отслеживания изменения массива прстов
    React.useEffect(() => {
@@ -37,13 +41,14 @@ function App() {
    // Состояние постов при загрузке
    // const [postsLoading, setPostsLoading] = React.useState(false);
    // Воспользуюсь своим Хуком для запуска прелоадера и отслеживания ошибок
-
    const [postsLoading, fetchPosts, errorPosts] = useFetching(async () => {
       // Получаем посты с сервера и загружаем их на страницу, передаем параметры, лимит и номер страницы
       const response = await PostService.getAll()
-      setPosts(response.data) 
+      setPosts(response.data)
       console.log(response.headers['x-total-count'])
-      setTotalPages(response.headers['x-total-count'])
+      const totalPages = response.headers['x-total-count']
+      setTotalPages(getPages(totalPages, limit))
+
    });
 
 
