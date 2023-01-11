@@ -20,11 +20,14 @@ function App() {
    // Общее состояние поиска и сортировки постов
    const [filter, setFilter] = React.useState({ sort: '', query: '' });
 
-   // Вызываю кастомный Хук usePosts
-   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
-
-   // Состояние Popup
+     // Состояние Popup
    const [activePopup, setActivePopup] = React.useState(false)
+
+   // Состояние в которое будем помещать общее кол-во страниц с постами 
+   const [totalPages, setTotalPages] = React.useState(0)
+
+    // Вызываю кастомный Хук usePosts
+    const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
 
    // Хук для отслеживания изменения массива прстов
    React.useEffect(() => {
@@ -34,32 +37,23 @@ function App() {
    // Состояние постов при загрузке
    // const [postsLoading, setPostsLoading] = React.useState(false);
    // Воспользуюсь своим Хуком для запуска прелоадера и отслеживания ошибок
-   const [postsLoading, fetchPosts, errorPosts] = useFetching( async() => {
-     await Promise.all([PostService()])
-         .then(([posts]) => {
-            setPosts(posts)
-         })                       
+
+   const [postsLoading, fetchPosts, errorPosts] = useFetching(async () => {
+      // Получаем посты с сервера и загружаем их на страницу, передаем параметры, лимит и номер страницы
+      const response = await PostService.getAll()
+      setPosts(response.data) 
+      console.log(response.headers['x-total-count'])
+      setTotalPages(response.headers['x-total-count'])
    });
 
-    // Функция для запроса массива постов
-   // async function feachPosts() {
-   //    setPostsLoading(true)
-   //    setTimeout(async () => {
-   //       const posts = await PostService.getAll()
-   //       setPosts(posts)
-   //       setPostsLoading(false)
-   //    }, 1000)
-   // }
-   // function fetchPosts() {
-   //    setPostsLoading(true)
-   //    setTimeout(() => {
-   //       Promise.all([PostService()])
-   //          .then(([posts]) => {
-   //             setPosts(posts)
-   //          })
-   //       setPostsLoading(false)
-   //    }, 1000)
-   // }
+
+   // const [postsLoading, fetchPosts, errorPosts] = useFetching( async() => {
+   //   await Promise.all([PostService()])
+   //       .then(([posts]) => {
+   //          setPosts(posts)
+   //       })                       
+   // });
+
 
    // Функция добовления постов, ее прокидываю пропсами в PostForm
    const createPost = (Newpost) => {
@@ -92,8 +86,8 @@ function App() {
             setFilter={setFilter}
          />
 
-         {errorPosts && 
-         <h1>Произошла ошибка ${errorPosts}</h1>
+         {errorPosts &&
+            <h1>Произошла ошибка ${errorPosts}</h1>
          }
 
          {postsLoading
