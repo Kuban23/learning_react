@@ -6,6 +6,7 @@ import PostForm from './Components/PostForm/PostForm';
 import PostList from './Components/PostList/PostList';
 import MyButton from './Components/UI/Button/MyButton';
 import MyPopup from './Components/UI/MyPopup/MyPopup';
+import Pagination from './Components/UI/Pagination/Pagination';
 import PreloaderPosts from './Components/UI/PreloaderPosts/PreloaderPosts';
 import { useFetching } from './hook/useFetching';
 import { usePosts } from './hook/usePosts';
@@ -40,10 +41,6 @@ function App() {
    React.useEffect(() => {
       fetchPosts()
    }, [page]);
-
-   let pagesArray = getPagesArray(totalPages);
-
-   //console.log(pagesArray)
 
    // Состояние постов при загрузке
    // const [postsLoading, setPostsLoading] = React.useState(false);
@@ -80,12 +77,6 @@ function App() {
       setPosts(posts.filter((p) => p.id !== post.id))
    }
 
-   // Функция для пагинации запроса страницы с 10 постами
-   const changePages = (page) => {
-
-      setPage(page)
-   }
-
    return (
 
       <div className='App'>
@@ -116,12 +107,12 @@ function App() {
             : <PostList posts={sortedAndSearchedPosts} remove={removePost} title={'Список постов'} />
          }
 
-         <div className='page__wrapper'>
-            {pagesArray.map((p) =>
-               <span className={page === p ? 'page page__current' : 'page'} key={p} onClick={() => changePages(p)}>{p}</span>)
+         <Pagination
+            page={page}
+            totalPages={totalPages}
+            setPage={setPage}
+         />
 
-            }
-         </div>
       </div>
 
 
