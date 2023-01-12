@@ -39,7 +39,7 @@ function App() {
    // Хук для отслеживания изменения массива прстов
    React.useEffect(() => {
       fetchPosts()
-   }, []);
+   }, [page]);
 
    let pagesArray = getPagesArray(totalPages);
 
@@ -80,6 +80,12 @@ function App() {
       setPosts(posts.filter((p) => p.id !== post.id))
    }
 
+   // Функция для пагинации запроса страницы с 10 постами
+   const changePages = (page) => {
+
+      setPage(page)
+   }
+
    return (
 
       <div className='App'>
@@ -112,15 +118,10 @@ function App() {
 
          <div className='page__wrapper'>
             {pagesArray.map((p) =>
-               <span className={page === p ?'page page__current' :'page'}>{p}</span>)
+               <span className={page === p ? 'page page__current' : 'page'} key={p} onClick={() => changePages(p)}>{p}</span>)
 
             }
          </div>
-
-
-
-
-
       </div>
 
 
