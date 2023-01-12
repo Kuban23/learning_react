@@ -10,7 +10,7 @@ import PreloaderPosts from './Components/UI/PreloaderPosts/PreloaderPosts';
 import { useFetching } from './hook/useFetching';
 import { usePosts } from './hook/usePosts';
 import './styles/App.css';
-import { getPages } from './utils/pages';
+import { getPages, getPagesArray } from './utils/pages';
 
 
 function App() {
@@ -30,6 +30,9 @@ function App() {
    // Состояние лимита страниц
    const [limit, setLimit] = React.useState(10);
 
+   // Состояние где будем хранить номер текущей страницы
+   const [page, setPage] = React.useState(1);
+
    // Вызываю кастомный Хук usePosts
    const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
 
@@ -38,19 +41,26 @@ function App() {
       fetchPosts()
    }, []);
 
+   let pagesArray = getPagesArray(totalPages);
+
+   //console.log(pagesArray)
+
    // Состояние постов при загрузке
    // const [postsLoading, setPostsLoading] = React.useState(false);
    // Воспользуюсь своим Хуком для запуска прелоадера и отслеживания ошибок
    const [postsLoading, fetchPosts, errorPosts] = useFetching(async () => {
       // Получаем посты с сервера и загружаем их на страницу, передаем параметры, лимит и номер страницы
-      const response = await PostService.getAll()
-      setPosts(response.data)
-      console.log(response.headers['x-total-count'])
-      const totalPages = response.headers['x-total-count']
-      setTotalPages(getPages(totalPages, limit))
-
+      // const response = await PostService.getAll(limit)
+      // setPosts(response.data)
+      // console.log(response.headers['x-total-count'])
+      // const totalPages = response.headers['x-total-count']
+      // setTotalPages(getPages(totalPages, limit))
+      const response = await PostService.getAll(limit, page)
+      setPosts(response.data) // Берем не сам массив, а поле data у response
+      const totalCount = (response.headers['x-total-count']) // Из header достаем общее кол-во постов
+      // Прередаем общее кол-во постов и лимит в функцию 
+      setTotalPages(getPages(totalCount, limit))
    });
-
 
    // const [postsLoading, fetchPosts, errorPosts] = useFetching( async() => {
    //   await Promise.all([PostService()])
@@ -58,7 +68,6 @@ function App() {
    //          setPosts(posts)
    //       })                       
    // });
-
 
    // Функция добовления постов, ее прокидываю пропсами в PostForm
    const createPost = (Newpost) => {
@@ -98,7 +107,16 @@ function App() {
          {postsLoading
             ?
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: 100 }}><PreloaderPosts /></div>
-            : <PostList posts={sortedAndSearchedPosts} remove={removePost} title={'Список постов'} />}
+            : <PostList posts={sortedAndSearchedPosts} remove={removePost} title={'Список постов'} />
+         }
+
+         <div className='page__wrapper'>
+            {pagesArray.map((p) =>
+               <span className={page === p ?'page page__current' :'page'}>{p}</span>)
+
+            }
+         </div>
+
 
 
 
