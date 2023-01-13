@@ -6,8 +6,8 @@
 
 #root {
 display: flex;
-justify-content: center;
-
+flex-direction: column;
+align-items: center;
 }
 
 .App {
@@ -78,4 +78,49 @@ justify-content: center;
 	transition: opacity 0.5s ease-in-out;
 	margin-right: 5px;
    font-weight: bold;
+}
+
+.navbar {
+   height: 50px;
+   width: 100vw;
+   margin: 0 auto;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	background-color: teal;
+   
+}
+
+.navbar__links {
+   font-size: 25px;
+   font-weight: 400;
+   color: #fff;
+	text-decoration: none;
+   transition: opacity 0.9s ease-in-out;
+   position: relative;
+   margin-left: 20px;
+}
+
+.navbar__links:after {
+	display: block;
+	position: absolute;
+	left: 0; /*изменить на right:0;, чтобы изменить направление подчёркивания */
+	width: 0;/*задаём длинну линии до наведения курсора*/
+	height: 1px; /*задаём ширину линии*/
+	background-color: #fff; /*задаём цвет линии*/
+	content: "";
+	transition: width 0.9s ease-out; /*задаём время анимации*/
+	}
+	
+	.navbar__links:hover:after,
+	.navbar__links:focus:after {
+	width: 100%; /*устанавливаем значение 100% чтобы ссылка подчёркивалась полностью*/
+	}
+
+.header__cantainer-link_active {
+	border-bottom: 1px solid #fff;
+	padding-bottom: 1px;	
+}
+
+.navbar__links:hover {
+	opacity: 0.8;
 }
