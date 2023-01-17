@@ -37,7 +37,7 @@ function Posts() {
    // Вызываю кастомный Хук usePosts
    const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
 
-   // Хук для отслеживания изменения массива прстов
+   // Хук для отслеживания изменения массива постов
    React.useEffect(() => {
       fetchPosts()
    }, [page]);
@@ -46,16 +46,16 @@ function Posts() {
    // const [postsLoading, setPostsLoading] = React.useState(false);
    // Воспользуюсь своим Хуком для запуска прелоадера и отслеживания ошибок
    const [postsLoading, fetchPosts, errorPosts] = useFetching(async () => {
-      // Получаем посты с сервера и загружаем их на страницу, передаем параметры, лимит и номер страницы
+      // Получаю посты с сервера и загружаем их на страницу, передаем параметры, лимит и номер страницы
       // const response = await PostService.getAll(limit)
       // setPosts(response.data)
       // console.log(response.headers['x-total-count'])
       // const totalPages = response.headers['x-total-count']
       // setTotalPages(getPages(totalPages, limit))
       const response = await PostService.getAll(limit, page)
-      setPosts(response.data) // Берем не сам массив, а поле data у response
-      const totalCount = (response.headers['x-total-count']) // Из header достаем общее кол-во постов
-      // Прередаем общее кол-во постов и лимит в функцию 
+      setPosts(response.data) // Беру не сам массив, а поле data у response
+      const totalCount = (response.headers['x-total-count']) // Из header достаю общее кол-во постов
+      // Прередаю общее кол-во постов и лимит в функцию 
       setTotalPages(getPages(totalCount, limit))
    });
 

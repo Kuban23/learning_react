@@ -1,82 +1,87 @@
 * {
-	padding: 0;
-	margin: 0;
-	box-sizing: border-box;
+   padding: 0;
+   margin: 0;
+   box-sizing: border-box;
 }
 
 #root {
-display: flex;
-flex-direction: column;
-align-items: center;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
 }
 
 .App {
-	width: 800px;
+   width: 800px;
 }
 
 .post {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin-top: 15px;
-	padding: 15px;
-	border: 2px solid cadetblue;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   margin-top: 15px;
+   padding: 15px;
+   border: 2px solid cadetblue;
+}
+
+.post__btns {
+   display: flex;
+   gap: 10px;
 }
 
 .post-enter {
-	/* opacity: 0; */
-	transform: translateX(-350px);
- }
+   /* opacity: 0; */
+   transform: translateX(-350px);
+}
 
- .post-enter-active {
-	transform: translateX(0px);
-	transition: all 500ms ease-in; 
- }
+.post-enter-active {
+   transform: translateX(0px);
+   transition: all 500ms ease-in;
+}
 
- .post-exit {
-	opacity: 1;
- }
+.post-exit {
+   opacity: 1;
+}
 
- .post-exit-active {
-	transform: translateX(-350px);
-	transition: all 500ms ease-in;
- }
+.post-exit-active {
+   transform: translateX(-350px);
+   transition: all 500ms ease-in;
+}
 
- .page__wrapper {
+.page__wrapper {
    margin-top: 15px;
    margin-bottom: 15px;
    display: flex;
-	justify-content: center;
+   justify-content: center;
 }
 
- .page {
-	padding: 5px 15px;
-	color: #fff;
-	font-size: 14px;
-	background:  teal;
-	border: 1px solid teal;
-	cursor: pointer;
-	border-radius: 5px;
-	margin-top: 5px;
-	transition: opacity 0.5s ease-in-out;
-	margin-right: 5px;
+.page {
+   padding: 5px 15px;
+   color: #fff;
+   font-size: 14px;
+   background: teal;
+   border: 1px solid teal;
+   cursor: pointer;
+   border-radius: 5px;
+   margin-top: 5px;
+   transition: opacity 0.5s ease-in-out;
+   margin-right: 5px;
 }
 
-.page:hover{
-	opacity: 0.7;
+.page:hover {
+   opacity: 0.7;
 }
 
-.page__current {   
-	padding: 5px 15px;
-	color: black;
-	font-size: 14px;
-	background:  rgb(137, 237, 237);
-	border: 1px solid teal;
-	cursor: pointer;
-	border-radius: 5px;
-	margin-top: 5px;
-	transition: opacity 0.5s ease-in-out;
-	margin-right: 5px;
+.page__current {
+   padding: 5px 15px;
+   color: black;
+   font-size: 14px;
+   background: rgb(137, 237, 237);
+   border: 1px solid teal;
+   cursor: pointer;
+   border-radius: 5px;
+   margin-top: 5px;
+   transition: opacity 0.5s ease-in-out;
+   margin-right: 5px;
    font-weight: bold;
 }
 
@@ -84,43 +89,49 @@ align-items: center;
    height: 50px;
    width: 100vw;
    margin: 0 auto;
-	padding-top: 15px;
-	padding-bottom: 15px;
-	background-color: teal;
-   
+   padding-top: 15px;
+   padding-bottom: 15px;
+   background-color: teal;
+
 }
 
 .navbar__links {
    font-size: 25px;
    font-weight: 400;
    color: #fff;
-	text-decoration: none;
+   text-decoration: none;
    transition: opacity 0.9s ease-in-out;
    position: relative;
    margin-left: 20px;
 }
 
 .navbar__links:after {
-	display: block;
-	position: absolute;
-	left: 0; /*изменить на right:0;, чтобы изменить направление подчёркивания */
-	width: 0;/*задаём длинну линии до наведения курсора*/
-	height: 1px; /*задаём ширину линии*/
-	background-color: #fff; /*задаём цвет линии*/
-	content: "";
-	transition: width 0.9s ease-out; /*задаём время анимации*/
-	}
-	
-	.navbar__links:hover:after,
-	.navbar__links:focus:after {
-	width: 100%; /*устанавливаем значение 100% чтобы ссылка подчёркивалась полностью*/
-	}
+   display: block;
+   position: absolute;
+   left: 0;
+   /*изменить на right:0;, чтобы изменить направление подчёркивания */
+   width: 0;
+   /*задаём длинну линии до наведения курсора*/
+   height: 1px;
+   /*задаём ширину линии*/
+   background-color: #fff;
+   /*задаём цвет линии*/
+   content: "";
+   transition: width 0.9s ease-out;
+   /*задаём время анимации*/
+}
+
+.navbar__links:hover:after,
+.navbar__links:focus:after {
+   width: 100%;
+   /*устанавливаем значение 100% чтобы ссылка подчёркивалась полностью*/
+}
 
 .header__cantainer-link_active {
-	border-bottom: 1px solid #fff;
-	padding-bottom: 1px;	
+   border-bottom: 1px solid #fff;
+   padding-bottom: 1px;
 }
 
 .navbar__links:hover {
-	opacity: 0.8;
+   opacity: 0.8;
 }
