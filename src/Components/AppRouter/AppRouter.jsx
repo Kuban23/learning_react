@@ -1,33 +1,53 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom';
-import About from '../../Components/Pages/About';
-import NotFoundPage from '../../Components/Pages/NotFoundPage';
-import Posts from '../../Components/Pages/Posts';
-import { routers } from '../../hook/router/routers';
-import PostIdPage from '../Pages/PostIdPage';
+import { AuthContext } from '../../Context';
+import { privatRouts, publicRouts } from '../../router/routers';
+
 
 const AppRouter = () => {
+
+   const { isAuth, setIsAuth } = useContext(AuthContext);
+
    return (
       <>
-         <Routes>
+         {isAuth
+            ?
+            <Routes>
+               {privatRouts.map((rout) =>
+                  <Route
+                     path={rout.path}
+                     element={rout.element}
+                     exact={rout.exact}
+                     key={rout.path}
+                  />)
+               }
+               <Route path='*' element={<Navigate to='/posts' replace />} />
+            </Routes>
+            :
+            <Routes>
+               {publicRouts.map((rout) =>
+                  <Route
+                     path={rout.path}
+                     element={rout.element}
+                     exact={rout.exact}
+                     key={rout.path}
+                  />)
+               }
+               <Route path='*' element={<Navigate to='/login' replace />} />
+            </Routes>
+         }
 
+         {/* <Routes>
             {routers.map((rout) =>
                <Route
                   path={rout.path}
                   element={rout.element}
                   exact={rout.exact}
                   key={rout.path}
-               />
-            )
+               />)
             }
-
-
-            {/* <Route path='/about' element={<About />} />
-            <Route exact path='/posts' element={<Posts />} />
-            <Route exact path='/posts/:id' element={<PostIdPage />} /> */}
-            {/* <Route path='*' element={<NotFoundPage />} /> */}
             <Route path='*' element={<Navigate to='/posts' replace />} />
-         </Routes>
+         </Routes> */}
 
       </>
    )
