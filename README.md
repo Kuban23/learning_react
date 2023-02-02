@@ -22,5 +22,5 @@
 * Сохраняю авторизованного пользователя в localStorage, удаляю при выходе.
 * Изменил загрузку постов с помощью отслеживания элемента, воспользовался Intersection Observer API.
 
-
-Ссылка на приложение: https://kuban23.github.io/learning_react/
+[Ссылка на проект](https://kuban23.github.io/learning_react/)
+ 
