@@ -7,11 +7,15 @@
 #root {
    display: flex;
    flex-direction: column;
-   align-items: center;
+   align-items: center; 
+   background-image: url('../assets/img/backLogin.jpg');
+   background-size: cover;    
 }
 
+
 .App {
-   width: 800px;
+   width: 800px; 
+   color: #fff;
 }
 
 .post {

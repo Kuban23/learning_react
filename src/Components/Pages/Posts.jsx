@@ -69,58 +69,14 @@ function Posts() {
 
   // Инициализируем Observer
    // Получаем ссылку на ДОМ элемент который находится последним в списке и когда этот элемнет появляется в области видимости
-   // окна браузера будем подгружать новую порцию данных.
-   // Для того чтобы получить элемнет, воспользуемся Хуком useRef и этот референс-ссылку передать в последний элемент
    const lastElement = React.useRef();
    //console.log(lastElement)
-
-   // Для того чтобы был доступ к let observer, создадим еще один ref
-   // const observer = React.useRef();
-
 
  // Observer, используем наш Хук, первый параметр lastElement-остлеж.элемент, вторым условие-page < totalPages, третьим-preloaderPosts, 
  // четверты- передаем callback в котором просто изменяем номер страницы
 useObserver(lastElement, page < totalPages, postsLoading, ()=>{ 
    setPage(page + 1)
 })
-
-//   // Observer, вставляем код с сайта developer.mozilla- intersection  Observer API
-//    React.useEffect(() => {
-//       // let options = {
-//       //    root: document.querySelector('#scrollArea'),
-//       //    rootMargin: '0px',
-//       //    threshold: 1.0
-//       // }
-//       let callback = function (entries, observer) {
-//          // Условие чтобы корректно загружлись посты, а не замыкались на странице №1, во первых если preloaderPosts равняется true, то
-//          // делаем return и до создания нового Observer-а даже не доходим. В вторых, если Observer уже создан и в поле current
-//          // что-то находится то тогда мы должны отключить наблюдение за всеми элементами за которыми наблюдает Observer в текущий
-//          // момент, для этого вызываем у него функцию disconnect
-//                   if(postsLoading) return;
-//                   if(observer.current) observer.current.disconnect();
-//          // (чтобы колбэк срабатывал только когда div появляется в зоне видимости, а не исчезает из области видимости)
-//          // Условие-получить по нулевому индексу наш наблюдаемый элемент и по полю isIntersecting проверить, в зоне видимости он
-//          // или нет и только в таком случае выполнять какое-то действие.
-//          // Делаем ограничение чтобы колбэк отрабатывал только тогда когда номер текущей страницы меньше чем общее кол-во страниц,
-//          // иначе страницы будут увеличиваться до бесконечности, а нам этого не нужно.
-//          if (entries[0].isIntersecting && page < totalPages) { 
-//             // console.log('div в зоне видимости') // убеждаемся,когда div в зоне видимости срабатывает callback
-//             console.log(page)
-//             setPage(page + 1) // Изменяем номер страницы, тем самым подгружается новый десяток постов
-//          }
-//          // console.log(entries) // entries-это массив элементов за котор. мы наблюдаем, (isIntersecting-это условие которое говорит,
-//          // элемент в зоне видимости или нет, target: div - элемнет за котор. мы наблюдаем)
-//          // console.log('div в зоне видимости') // убеждаемся,когда div в зоне видимости срабатывает callback
-//       }
-//       // Для того чтобы был доступ к let observer, создадим еще один ref (см. выше), 
-//       //  observer помещем в поле current
-//       observer.current = new IntersectionObserver(callback);
-//       // Указыаем за каким элементом будем наблюдать, для этого у observer.current вызываем функ-ю observe(lastElement.current)
-//       // и предать туда ДОМ элемент, в нашем случае это lastElement.current поле current. После этого наш <div> становится наблюдаемым
-//       observer.current.observe(lastElement.current)
-//    }, [postsLoading]) // передаем preloaderPosts чтобы убрать замыкание стрницы под №1
-
-
 
 
    // Функция добовления постов, ее прокидываю пропсами в PostForm
@@ -159,7 +115,7 @@ useObserver(lastElement, page < totalPages, postsLoading, ()=>{
          }
 
 <PostList posts={sortedAndSearchedPosts} remove={removePost} title={'Список постов'} />
-<div ref={lastElement} style={{height:20, background: 'red'}}/>
+<div ref={lastElement} />
          
          {postsLoading &&
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: 100 }}><PreloaderPosts /></div>

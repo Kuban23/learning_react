@@ -31,7 +31,7 @@ const PostIdPage = () => {
 
 
    return (
-      <div>
+      <div style={{color: '#fff', height:'100vh'}}>
          <h1>Вы перешли на страницу поста с ID = {params.id}</h1>
          {isLoading
             ? <PreloaderPosts />

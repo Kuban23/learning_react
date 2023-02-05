@@ -17,7 +17,7 @@ const Navbar = () => {
       <div className='navbar'>
          <Link className='navbar__links' to='/about'>О проекте</Link>
          <Link className='navbar__links' to='/posts'>Посты</Link>
-         <button className='navbar__links navbar__btn' onClick={logout}>Выход</button>
+         <Link className='navbar__links navbar__btn' onClick={logout}>Выход</Link>
       </div>
    )
 }
